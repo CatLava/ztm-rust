@@ -10,4 +10,25 @@
 // * Implement functionality on the box struct to create a new box
 // * Implement functionality on the box struct to print the characteristics
 
+enum BoxColor {
+    red,
+    blue,
+    green,
+};
+
+struct Box {
+    length: f32,
+    width: f32,
+    height: f32,
+    weight: f32,
+    color: BoxColor
+};
+
+impl Box {
+    fn new_box() {
+
+    }
+
+    fn show_characterics
+}
 fn main() {}
