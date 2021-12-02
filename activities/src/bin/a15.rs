@@ -11,4 +11,26 @@
 // * Create one of each ticket and place into a vector
 // * Use a match expression while iterating the vector to print the ticket info
 
-fn main() {}
+
+// price is included as the f32
+#[derive(Debug)]
+enum TicketType {
+    Standard(f32),
+    Backstage(String, f32),
+    Vip(String, f32),
+}
+
+fn main() {
+    let s = TicketType::Standard(32.0);
+    let b = TicketType::Backstage("Moosha".to_string(), 100.0);
+    let v = TicketType::Vip("Hemholt".to_string(), 250.00);
+
+    let tickets = vec![&s, &b, &v];
+
+    for tic in tickets {
+        match tic {
+            TicketType::Backstage(_, _) => println!("{:?}", tic ),
+            _ => println!("test" ),
+        }
+    }
+}
