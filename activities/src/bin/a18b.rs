@@ -22,4 +22,60 @@
 // * Print whether the employee may access the building
 //   * Must use a function that utilizes the question mark operator to do this
 
-fn main() {}
+enum EmployeeDepartment {
+    Maintenance,
+    Marketing,
+    Managers,
+    LineStaff,
+    Kitchen,
+    AssemblyTech,
+}
+
+struct EmployeeStatus {
+    department: EmployeeDepartment,
+    // this could reference an enum versus this set up clear
+
+    active: bool,
+}
+
+fn PermitEntry(employee: EmployeeStatus) -> Result<bool, String> {
+    // a match could be used here instead of an if
+    // this depends on the s
+    if employee.active == true {
+        match employee.department {
+            EmployeeDepartment::Managers => Ok(true),
+            _ => Err("Not in department".to_string()),
+        }
+    } else {
+        Err("Employee not active".to_string())
+    }
+}
+fn main() {
+
+    fn check_employee(emp: EmployeeStatus) -> Result<bool, String> {
+        let juan = PermitEntry(emp)?;
+        return Ok(juan)
+    }
+
+    let p1 = check_employee(EmployeeStatus {
+        department: EmployeeDepartment::Managers,
+        active: true,
+        }
+    );
+
+    let p2 = check_employee(EmployeeStatus {
+        department: EmployeeDepartment::Managers,
+        active: false,
+        }
+    );
+
+    let p3 = check_employee(EmployeeStatus {
+        department: EmployeeDepartment::Kitchen,
+        active: true,
+        }
+    );
+
+    println!("{:?}", p1);
+    println!("{:?}", p2);
+    println!("{:?}", p3)
+}

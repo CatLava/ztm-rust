@@ -12,6 +12,7 @@
 // * Use a match expression while iterating the vector to print the ticket info
 
 
+
 // price is included as the f32
 #[derive(Debug)]
 enum TicketType {
@@ -19,6 +20,7 @@ enum TicketType {
     Backstage(String, f32),
     Vip(String, f32),
 }
+
 
 fn main() {
     let s = TicketType::Standard(32.0);
@@ -29,7 +31,11 @@ fn main() {
 
     for tic in tickets {
         match tic {
-            TicketType::Backstage(_, _) => println!("{:?}", tic ),
+            TicketType::Backstage(name, price) => {
+                println!("Backstage held by: {:?} for : {:?}", name, price )
+            },
+            TicketType::Vip(name, price) => println!("Vip held by: {:?} for : {:?}", name, price ),
+            TicketType::Standard(_) => println!("{:?}", tic ),
             _ => println!("test" ),
         }
     }
