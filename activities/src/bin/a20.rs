@@ -23,4 +23,35 @@
 // * The program should be case-insensitive (the user should be able to type
 //   Reboot, reboot, REBOOT, etc.)
 
-fn main() {}
+enum PowerStates {
+    Off,
+    Sleep,
+    Reboot,
+    Shutdown,
+    Hibernate,
+    Invalid,
+}
+
+fn TranslateInput(word: PowerStates) {
+    match word {
+        PowerStates::Off => println!("Turning Off"),
+        PowerStates::Sleep => println!("sleeping"),
+        PowerStates::Reboot => println!("reboiting"),
+        PowerStates::Shutdown => println!("shut down"),
+        PowerStates::Hibernate => println!("Hibernating"),
+        _ => println!("not an input"),
+    }
+}    
+fn main() {
+    let user_input = "invalid".to_lowercase().to_string();
+    let newinput = match user_input.as_str() {
+        "off" => PowerStates::Off,
+        "sleep" => PowerStates::Sleep,
+        "reboot" => PowerStates::Reboot,
+        "shutdown" => PowerStates::Shutdown,
+        "hibernate" => PowerStates::Hibernate,
+        _ => PowerStates::Invalid,
+
+    };
+    TranslateInput(newinput)
+}

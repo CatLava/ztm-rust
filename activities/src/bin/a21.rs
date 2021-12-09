@@ -25,4 +25,20 @@ fn find_user(name: &str) -> Option<i32> {
     }
 }
 
-fn main() {}
+fn main() {
+    let tryname = "sam".to_string();
+    let verify = find_user(&tryname)
+        .map(|user_id| { User {
+            user_id: user_id,
+            name: tryname.to_string()
+            }
+        }
+    );
+
+    match verify {
+        Some(verify) => println!("{:?}", verify),
+        _ => println!("user not found")
+    }
+
+
+}
