@@ -32,3 +32,20 @@ fn concat(first: &str, second: &str) -> String {
 }
 
 fn main() {}
+
+#[cfg(test)]
+mod test {
+
+    #[test]
+    fn test1 {
+        let t1 = clamp(5, 2, 6);
+        let v = 5
+        assert_eq!(t1, v, "not within guidelines")
+
+    }
+
+    #[test]
+    fn test2 {
+
+    }
+}

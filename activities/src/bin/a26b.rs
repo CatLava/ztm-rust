@@ -14,35 +14,41 @@
 // Notes:
 // * After moving the functions into modules, try running
 //   `cargo check --bin a26b` to get a listing of required code changes
-
-fn trim(msg: &str) -> &str {
-    msg.trim()
-}
-
-fn capitalize(msg: &str) -> std::borrow::Cow<'_, str> {
-    if let Some(letter) = msg.get(0..1) {
-        format!("{}{}", letter.to_uppercase(), &msg[1..msg.len()]).into()
-    } else {
-        msg.into()
+pub mod Msg {
+    pub fn trim(msg: &str) -> &str {
+        msg.trim()
     }
+
+    pub fn capitalize(msg: &str) -> std::borrow::Cow<'_, str> {
+        if let Some(letter) = msg.get(0..1) {
+            format!("{}{}", letter.to_uppercase(), &msg[1..msg.len()]).into()
+        } else {
+            msg.into()
+        }
+    }
+
+    pub fn exciting(msg: &str) -> String {
+        format!("{}!", msg)
+    }
+
 }
 
-fn exciting(msg: &str) -> String {
-    format!("{}!", msg)
-}
-
-fn add(lhs: isize, rhs: isize) -> isize {
-    lhs + rhs
-}
-fn sub(lhs: isize, rhs: isize) -> isize {
-    lhs - rhs
-}
-fn mul(lhs: isize, rhs: isize) -> isize {
-    lhs * rhs
+pub mod Math {
+    pub fn add(lhs: isize, rhs: isize) -> isize {
+        lhs + rhs
+    }
+    pub fn sub(lhs: isize, rhs: isize) -> isize {
+        lhs - rhs
+    }
+    pub fn mul(lhs: isize, rhs: isize) -> isize {
+        lhs * rhs
+    }
 }
 
 fn main() {
     // Part 1: math functions
+    use Math::*;
+    use Msg::*;
     let result = {
         let two_plus_two = add(2, 2);
         let three = sub(two_plus_two, 1);
