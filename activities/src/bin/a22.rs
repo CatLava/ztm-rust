@@ -35,17 +35,34 @@ fn main() {}
 
 #[cfg(test)]
 mod test {
-
+    use crate::clamp;
     #[test]
-    fn test1 {
+    fn test1() {
         let t1 = clamp(5, 2, 6);
-        let v = 5
+        let v = 5;
         assert_eq!(t1, v, "not within guidelines")
-
     }
 
     #[test]
-    fn test2 {
-
+    fn test2() {
+        let t1 = clamp(8, 2, 6);
+        let v = 6;
+        assert_eq!(t1, v, "not within guidelines")
     }
+    use crate::div;
+    #[test]
+    fn test3() {
+        let t3 = div(4, 2);
+        let ans = Some(2);
+        assert_eq!(t3, ans, " not correct division")
+    }
+
+    #[test]
+    fn test4() {
+        let t3 = div(9, 2);
+        let ans = Some(4);
+        assert_eq!(t3, ans, " not correct division")
+    }
+
+    
 }
