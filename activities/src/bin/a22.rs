@@ -33,6 +33,8 @@ fn concat(first: &str, second: &str) -> String {
 
 fn main() {}
 
+// stronger labling on the tests next time 
+// better labels 
 #[cfg(test)]
 mod test {
     use crate::clamp;

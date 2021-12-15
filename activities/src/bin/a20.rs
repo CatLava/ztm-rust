@@ -23,6 +23,10 @@
 // * The program should be case-insensitive (the user should be able to type
 //   Reboot, reboot, REBOOT, etc.)
 
+use std::io;
+
+// we want to do an impl on the power stat
+#[derive(Debug)]
 enum PowerStates {
     Off,
     Sleep,
@@ -32,26 +36,37 @@ enum PowerStates {
     Invalid,
 }
 
-fn TranslateInput(word: PowerStates) {
+impl PowerStates {
+    fn new(state: &str)-> Option<PowerStates> {
+        let state = state.trim().to_lowercase();
+        match state.as_str() {
+            "off" => Some(PowerStates::Off),
+            "sleep" => Some(PowerStates::Sleep),
+            "reboot" => Some(PowerStates::Reboot),
+            "shutdown" => Some(PowerStates::Shutdown),
+            "hibernate" => Some(PowerStates::Hibernate),
+            _ => Some(PowerStates::Invalid),
+        
+        }
+    }
+}
+
+fn TranslateInput(word: Option<PowerStates>) {
+    use PowerStates::*;
     match word {
-        PowerStates::Off => println!("Turning Off"),
-        PowerStates::Sleep => println!("sleeping"),
-        PowerStates::Reboot => println!("reboiting"),
-        PowerStates::Shutdown => println!("shut down"),
-        PowerStates::Hibernate => println!("Hibernating"),
+        Some(Off) => println!("Turning Off"),
+        Some(Sleep) => println!("sleeping"),
+        Some(Reboot) => println!("reboiting"),
+        Some(Shutdown) => println!("shut down"),
+        Some(Hibernate) => println!("Hibernating"),
         _ => println!("not an input"),
     }
 }    
-fn main() {
-    let user_input = "invalid".to_lowercase().to_string();
-    let newinput = match user_input.as_str() {
-        "off" => PowerStates::Off,
-        "sleep" => PowerStates::Sleep,
-        "reboot" => PowerStates::Reboot,
-        "shutdown" => PowerStates::Shutdown,
-        "hibernate" => PowerStates::Hibernate,
-        _ => PowerStates::Invalid,
+fn main() -> io::Result<()> {
+    let mut user_input = String::new();
+    io::stdin().read_line(&mut user_input)?; 
+    println!("{}", user_input);
+    let newinput = PowerStates::new(&user_input);
 
-    };
-    TranslateInput(newinput)
+    Ok(TranslateInput(newinput))
 }

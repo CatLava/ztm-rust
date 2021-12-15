@@ -29,4 +29,39 @@
 // * A vector is the easiest way to store the bills at stage 1, but a
 //   hashmap will be easier to work with at stages 2 and 3.
 
-fn main() {}
+use std::collections::HashMap;
+use std::io;
+
+// defining bill
+struct Bill {
+    name: String,
+    amount: f32,
+}
+
+pub mod BillOperation {
+    use crate::Bill;
+    use std::collections::HashMap;
+    
+    pub fn view_bill(tracker: HashMap) {
+        for bill in tracker{
+            println!("bill {}", bill)
+        }
+    }
+    pub fn add_bill(tracker: type<HashMap>) {
+        // user input of bill
+        let bill = io::read_line();
+        let amount = io::read_line();
+        let item = Bill {
+            name: bill,
+            amount: amount,
+        }
+        tracker.insert(item)
+    }
+}
+fn main() {
+    use BillOperation::*;
+    // need to implement menu options with loop
+    let mut tracker = HashMap::new();
+    add_bill(tracker)
+
+}
