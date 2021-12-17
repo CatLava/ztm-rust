@@ -38,39 +38,47 @@ struct Bill {
     amount: f32,
 }
 
+pub fn get_input() -> Option<String> {
+    println!("input bill");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input);
+    let word = input.to_string();
+    if &word == "" {
+        None
+    } else {
+        Some(word)
+    }
+    
+}
+
+pub fn get_amount_input() -> Option<f32> {
+    println!("input bill amount");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input);
+    let amount: f32 = match input.parse() {
+        Ok(amount) => amount,
+        _ => 0.0
+    };
+    Some(amount)
+}
+
 pub mod BillOperation {
     use crate::Bill;
     use std::collections::HashMap;
     use std::io;
 
-    pub fn view_bill(tracker: HashMap<K,V>) {
-        for bill, amount in tracker{
-            println!("bill {}, amount {}", bill, amount)
-        }
+    pub fn view_bill(tracker: &mut  HashMap<&str, &f32>) {
+       
     }
-    pub fn add_bill(tracker: &mut  HashMap<&str, &f32>) {
-        let mut bill = String::new();
-        let mut amount = String::new();
-        // user input of bill
-        let mut bill = io::stdin().read_line(&mut bill);
-        let bill: str = match bill {
-            Ok(bill) => bill as str,
-            Err(_) => "none".as_str(),
-        }
-        let mut amount = io::stdin().read_line(&mut amount);
-        let amount: f32 = match amount {
-            Ok(amount) => amount as f32,
-            Err(_) => 0.0,
-        };
-
-        
-        tracker.insert(&bill,&amount);
+    pub fn add_bill(tracker: &mut  HashMap<&str, &f32>)  {
+  
     }
 }
 fn main() {
     use BillOperation::*;
     // need to implement menu options with loop
     let mut tracker:  HashMap<&str, &f32> = HashMap::new();
-    add_bill(&mut tracker);
+    get_input();
+    get_amount_input();
 
 }
