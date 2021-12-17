@@ -55,9 +55,9 @@ pub fn get_amount_input() -> Option<f32> {
     println!("input bill amount");
     let mut input = String::new();
     io::stdin().read_line(&mut input);
-    let amount: f32 = match input.parse() {
-        Ok(amount) => amount,
-        _ => 0.0
+    let amount = match input.trim().parse::<f32>().unwrap() {
+        amount => amount,
+        _ => 0.0,
     };
     Some(amount)
 }
@@ -66,19 +66,26 @@ pub mod BillOperation {
     use crate::Bill;
     use std::collections::HashMap;
     use std::io;
+    use crate::get_amount_input;
+    use crate::get_input;
 
-    pub fn view_bill(tracker: &mut  HashMap<&str, &f32>) {
-       
+    pub fn view_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+       for (bill, amount) in tracker {
+           println!("bill {:?}, amount {:?}", bill, amount)
+       }
     }
-    pub fn add_bill(tracker: &mut  HashMap<&str, &f32>)  {
-  
+    pub fn add_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>)  {
+        let i = get_input();
+        let j = get_amount_input();
+        tracker.insert(i,j);
     }
 }
 fn main() {
     use BillOperation::*;
     // need to implement menu options with loop
-    let mut tracker:  HashMap<&str, &f32> = HashMap::new();
-    get_input();
-    get_amount_input();
+    let mut tracker: HashMap<Option<String>, Option<f32>> = HashMap::new();
+    add_bill(&mut tracker);
+    view_bill(&mut tracker);
+    
 
 }
