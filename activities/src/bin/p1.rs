@@ -41,27 +41,36 @@ struct Bill {
 pub mod BillOperation {
     use crate::Bill;
     use std::collections::HashMap;
-    
-    pub fn view_bill(tracker: HashMap) {
-        for bill in tracker{
-            println!("bill {}", bill)
+    use std::io;
+
+    pub fn view_bill(tracker: HashMap<K,V>) {
+        for bill, amount in tracker{
+            println!("bill {}, amount {}", bill, amount)
         }
     }
-    pub fn add_bill(tracker: type<HashMap>) {
+    pub fn add_bill(tracker: &mut  HashMap<&str, &f32>) {
+        let mut bill = String::new();
+        let mut amount = String::new();
         // user input of bill
-        let bill = io::read_line();
-        let amount = io::read_line();
-        let item = Bill {
-            name: bill,
-            amount: amount,
+        let mut bill = io::stdin().read_line(&mut bill);
+        let bill: str = match bill {
+            Ok(bill) => bill as str,
+            Err(_) => "none".as_str(),
         }
-        tracker.insert(item)
+        let mut amount = io::stdin().read_line(&mut amount);
+        let amount: f32 = match amount {
+            Ok(amount) => amount as f32,
+            Err(_) => 0.0,
+        };
+
+        
+        tracker.insert(&bill,&amount);
     }
 }
 fn main() {
     use BillOperation::*;
     // need to implement menu options with loop
-    let mut tracker = HashMap::new();
-    add_bill(tracker)
+    let mut tracker:  HashMap<&str, &f32> = HashMap::new();
+    add_bill(&mut tracker);
 
 }
