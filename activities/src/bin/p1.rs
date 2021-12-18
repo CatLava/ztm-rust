@@ -79,6 +79,16 @@ pub mod BillOperation {
         let j = get_amount_input();
         tracker.insert(i,j);
     }
+
+    pub fn delete_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+        println!("enter bill name to delete: ");
+        let delete_name = get_input();
+        if tracker.contains_key( & &delete_name) {
+            tracker.remove( & delete_name)
+        } else {
+            println!("bill not found")
+        }
+    }
 }
 fn main() {
     use BillOperation::*;
