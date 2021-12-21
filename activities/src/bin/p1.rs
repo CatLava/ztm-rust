@@ -38,11 +38,41 @@ struct Bill {
     amount: f32,
 }
 
+enum MainMenu {
+    AddBill,
+    ViewBill,
+    EditBill,
+    DeleteBill,
+}
+
+impl MainMenu {
+    fn from_str(input: &str) -> Option<MainMenu> {
+        match input {
+            "1" => Some(Self::AddBill),
+            "2" => Some(Self::ViewBill),
+            "3" => Some(Self::EditBill),
+            "4" => Some(Self::DeleteBill),
+            _ => None
+        }
+    }
+
+    fn show() {
+        println!("Select a menu option");
+        println!("1: Add bills");
+        println!("2: View bills");
+        println!("3: Edit bills");
+        println!("4: Delete bills");
+        println!("5: Exit");
+        println!("Enter Selection:");
+
+    }
+}
+
 pub fn get_input() -> Option<String> {
     println!("input bill");
     let mut input = String::new();
     io::stdin().read_line(&mut input);
-    let word = input.to_string();
+    let word = input.trim().to_string();
     if &word == "" {
         None
     } else {
@@ -84,17 +114,49 @@ pub mod BillOperation {
         println!("enter bill name to delete: ");
         let delete_name = get_input();
         if tracker.contains_key( & &delete_name) {
-            tracker.remove( & delete_name)
+            tracker.remove( & delete_name);
+            println!("deleting");
         } else {
-            println!("bill not found")
+            println!("bill not found");
+        }
+    }
+
+    pub fn edit_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+        println!("enter bill name to eidt: ");
+        let edit_name = get_input();
+        if tracker.contains_key( & &edit_name) {
+            tracker.remove( & edit_name);
+            println!("deleting");
+            let edit_amount = get_amount_input();
+            tracker.insert(edit_name, edit_amount);
+        } else {
+            println!("bill not found");
         }
     }
 }
 fn main() {
-    use BillOperation::*;
+    use crate::BillOperation::*;
     // need to implement menu options with loop
     let mut tracker: HashMap<Option<String>, Option<f32>> = HashMap::new();
+    loop {
+        // Display menu
+        // make a choice based on input
+        MainMenu::show();
+        let input = get_input().expect("no data");
+        println!("{:?}", input);
+        match MainMenu::from_str(input.as_str()) {
+            Some(MainMenu::AddBill) => add_bill(&mut tracker),
+            Some(MainMenu::ViewBill) => view_bill(&mut tracker),
+            Some(MainMenu::EditBill) => edit_bill(&mut tracker),
+            Some(MainMenu::DeleteBill) => delete_bill(&mut tracker),
+            _ => println!("")
+        }
+
+    }
     add_bill(&mut tracker);
+    add_bill(&mut tracker);
+    view_bill(&mut tracker);
+    delete_bill(&mut tracker);
     view_bill(&mut tracker);
     
 
