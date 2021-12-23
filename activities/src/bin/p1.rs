@@ -33,9 +33,31 @@ use std::collections::HashMap;
 use std::io;
 
 // defining bill
-struct Bill {
+#[derive(Debug, Clone)]
+pub struct Bill {
     name: String,
     amount: f32,
+}
+
+// hashmap after this one
+pub struct Bills {
+    inner: Vec<Bill>
+}
+
+impl Bills {
+    fn new() -> Self {
+        Self {
+            inner: vec![]
+        }
+    }
+
+    fn add(&mut self, bill: Bill) {
+        self.inner.push(bill); 
+    }
+
+    fn get_all(&self) -> Vec<&Bill> {
+        self.inner.iter().collect()
+    }
 }
 
 enum MainMenu {
@@ -92,25 +114,36 @@ pub fn get_amount_input() -> Option<f32> {
     Some(amount)
 }
 
+// refactoring for usage of structs and not these hashmap
+// too much borrowing and inconsistent 
 pub mod BillOperation {
     use crate::Bill;
+    use crate::Bills;
     use std::collections::HashMap;
     use std::io;
     use crate::get_amount_input;
     use crate::get_input;
 
-    pub fn view_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+    pub fn view_bill(tracker: &mut Bills) {
        for (bill, amount) in tracker {
            println!("bill {:?}, amount {:?}", bill, amount)
        }
     }
-    pub fn add_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>)  {
-        let i = get_input();
-        let j = get_amount_input();
-        tracker.insert(i,j);
+    pub fn add_bill(tracker: &mut Bills)  {
+        let name = match get_input() {
+            Some(name) => name,
+            None => return,
+        };
+        let amount = match get_amount_input() {
+            Some(amount) => amount,
+            None => return,
+        } ;
+        let bill = Bill {name, amount};
+        tracker.push(Bill);
+        println!("Bill added!")
     }
 
-    pub fn delete_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+    pub fn delete_bill(tracker: &mut  Bills) {
         println!("enter bill name to delete: ");
         let delete_name = get_input();
         if tracker.contains_key( & &delete_name) {
@@ -121,7 +154,7 @@ pub mod BillOperation {
         }
     }
 
-    pub fn edit_bill(tracker: &mut  HashMap<Option<String>, Option<f32>>) {
+    pub fn edit_bill(tracker: &mut  Bills) {
         println!("enter bill name to eidt: ");
         let edit_name = get_input();
         if tracker.contains_key( & &edit_name) {
@@ -153,11 +186,7 @@ fn main() {
         }
 
     }
-    add_bill(&mut tracker);
-    add_bill(&mut tracker);
-    view_bill(&mut tracker);
-    delete_bill(&mut tracker);
-    view_bill(&mut tracker);
+    
     
 
 }
