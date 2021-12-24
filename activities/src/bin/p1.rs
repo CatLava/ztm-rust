@@ -41,22 +41,29 @@ pub struct Bill {
 
 // hashmap after this one
 pub struct Bills {
-    inner: Vec<Bill>
+    inner: HashMap<String, Bill>
 }
 
 impl Bills {
     fn new() -> Self {
         Self {
-            inner: vec![]
+            inner: HashMap::new()
         }
     }
 
     fn add(&mut self, bill: Bill) {
-        self.inner.push(bill); 
+        self.inner.insert(bill.name.to_string(), bill); 
     }
 
     fn get_all(&self) -> Vec<&Bill> {
-        self.inner.iter().collect()
+        // collect values into a vector
+        self.inner.values().collect()
+    }
+
+    fn remove(&mut self, name: &str) -> bool {
+        // is_some will return true if value is removed
+        // else value will be false if not removed
+        self.inner.remove(name).is_some()
     }
 }
 
@@ -103,15 +110,25 @@ pub fn get_input() -> Option<String> {
     
 }
 
+// refactor this 
 pub fn get_amount_input() -> Option<f32> {
     println!("input bill amount");
-    let mut input = String::new();
-    io::stdin().read_line(&mut input);
-    let amount = match input.trim().parse::<f32>().unwrap() {
-        amount => amount,
-        _ => 0.0,
-    };
-    Some(amount)
+    loop {
+        let input = match get_input() {
+            Some(input) => input,
+            None => return None,
+        };
+        if &input == "" {
+            return None
+        };
+        let amount = input.parse::<f32>() ;
+        match amount {
+            Ok(amount) => return Some(amount),
+            Err(_) => println!("invalid try again"),
+        };
+    }
+    // parse will attempt to turn into appropriate data type
+   
 }
 
 // refactoring for usage of structs and not these hashmap
@@ -124,9 +141,9 @@ pub mod BillOperation {
     use crate::get_amount_input;
     use crate::get_input;
 
-    pub fn view_bill(tracker: &mut Bills) {
-       for (bill, amount) in tracker {
-           println!("bill {:?}, amount {:?}", bill, amount)
+    pub fn view_bill(tracker: &Bills) {
+       for bills in tracker.get_all() {
+           println!("bill {:?}", bills)
        }
     }
     pub fn add_bill(tracker: &mut Bills)  {
@@ -139,21 +156,27 @@ pub mod BillOperation {
             None => return,
         } ;
         let bill = Bill {name, amount};
-        tracker.push(Bill);
+        // impl method add created above for adding bills 
+        tracker.add(bill);
         println!("Bill added!")
     }
 
     pub fn delete_bill(tracker: &mut  Bills) {
+        for bill in tracker.get_all() {
+            println!("{:?}", bill)
+        }
         println!("enter bill name to delete: ");
-        let delete_name = get_input();
-        if tracker.contains_key( & &delete_name) {
-            tracker.remove( & delete_name);
-            println!("deleting");
+        let delete_name = match get_input() {
+            Some(name) => name,
+            None => return,
+        };
+        if tracker.remove(&delete_name) {
+            println!("successfully delete")
         } else {
-            println!("bill not found");
+            println!("bill does not match name")
         }
     }
-
+/*
     pub fn edit_bill(tracker: &mut  Bills) {
         println!("enter bill name to eidt: ");
         let edit_name = get_input();
@@ -165,12 +188,13 @@ pub mod BillOperation {
         } else {
             println!("bill not found");
         }
-    }
+    } */
 }
+
 fn main() {
     use crate::BillOperation::*;
     // need to implement menu options with loop
-    let mut tracker: HashMap<Option<String>, Option<f32>> = HashMap::new();
+    let mut tracker = Bills::new();
     loop {
         // Display menu
         // make a choice based on input
@@ -179,9 +203,9 @@ fn main() {
         println!("{:?}", input);
         match MainMenu::from_str(input.as_str()) {
             Some(MainMenu::AddBill) => add_bill(&mut tracker),
-            Some(MainMenu::ViewBill) => view_bill(&mut tracker),
-            Some(MainMenu::EditBill) => edit_bill(&mut tracker),
-            Some(MainMenu::DeleteBill) => delete_bill(&mut tracker),
+            Some(MainMenu::ViewBill) => view_bill(&tracker),
+            //Some(MainMenu::EditBill) => edit_bill(&mut tracker),
+            //Some(MainMenu::DeleteBill) => delete_bill(&mut tracker),
             _ => println!("")
         }
 
