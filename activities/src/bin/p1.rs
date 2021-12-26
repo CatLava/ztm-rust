@@ -65,6 +65,16 @@ impl Bills {
         // else value will be false if not removed
         self.inner.remove(name).is_some()
     }
+
+    fn edit(&mut self, name: &str, amount: f32) -> bool {
+        match self.inner.get_mut(name) {
+            Some(bill) => { 
+                bill.amount = amount;
+                true
+            }
+            None => false,
+        }
+    }
 }
 
 enum MainMenu {
@@ -98,7 +108,6 @@ impl MainMenu {
 }
 
 pub fn get_input() -> Option<String> {
-    println!("input bill");
     let mut input = String::new();
     io::stdin().read_line(&mut input);
     let word = input.trim().to_string();
@@ -112,7 +121,6 @@ pub fn get_input() -> Option<String> {
 
 // refactor this 
 pub fn get_amount_input() -> Option<f32> {
-    println!("input bill amount");
     loop {
         let input = match get_input() {
             Some(input) => input,
@@ -147,10 +155,12 @@ pub mod BillOperation {
        }
     }
     pub fn add_bill(tracker: &mut Bills)  {
+        println!("enter bill name:");
         let name = match get_input() {
             Some(name) => name,
             None => return,
         };
+        println!("enter bill amount:");
         let amount = match get_amount_input() {
             Some(amount) => amount,
             None => return,
@@ -176,23 +186,37 @@ pub mod BillOperation {
             println!("bill does not match name")
         }
     }
-/*
+
     pub fn edit_bill(tracker: &mut  Bills) {
-        println!("enter bill name to eidt: ");
-        let edit_name = get_input();
-        if tracker.contains_key( & &edit_name) {
-            tracker.remove( & edit_name);
-            println!("deleting");
-            let edit_amount = get_amount_input();
-            tracker.insert(edit_name, edit_amount);
-        } else {
-            println!("bill not found");
+        println!("Edit bills from below");
+        for bill in tracker.get_all() {
+            println!("{:?}", bill)
         }
-    } */
+        println!("bill name");
+        let name = match get_input() {
+            Some(name) => name,
+            None => return,
+        };
+        println!("new bill amount");
+        let amount = match get_amount_input() {
+            Some(amount) => amount,
+            None => return,
+        } ;
+       
+        if tracker.edit(&name, amount) {
+            println!("new bill list");
+            for bill in tracker.get_all() {
+                println!("{:?}", bill)
+            }
+        } else {
+        println!("new bill list");
+        }
+    }       
 }
 
 fn main() {
     use crate::BillOperation::*;
+    use crate::MainMenu;
     // need to implement menu options with loop
     let mut tracker = Bills::new();
     loop {
@@ -204,8 +228,8 @@ fn main() {
         match MainMenu::from_str(input.as_str()) {
             Some(MainMenu::AddBill) => add_bill(&mut tracker),
             Some(MainMenu::ViewBill) => view_bill(&tracker),
-            //Some(MainMenu::EditBill) => edit_bill(&mut tracker),
-            //Some(MainMenu::DeleteBill) => delete_bill(&mut tracker),
+            Some(MainMenu::EditBill) => edit_bill(&mut tracker),
+            Some(MainMenu::DeleteBill) => delete_bill(&mut tracker),
             _ => println!("")
         }
 
