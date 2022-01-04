@@ -39,6 +39,7 @@ enum PowerStates {
 impl PowerStates {
     fn new(state: &str)-> Option<PowerStates> {
         let state = state.trim().to_lowercase();
+        // String -> &str
         match state.as_str() {
             "off" => Some(PowerStates::Off),
             "sleep" => Some(PowerStates::Sleep),
@@ -67,6 +68,5 @@ fn main() -> io::Result<()> {
     io::stdin().read_line(&mut user_input)?; 
     println!("{}", user_input);
     let newinput = PowerStates::new(&user_input);
-
     Ok(TranslateInput(newinput))
 }
