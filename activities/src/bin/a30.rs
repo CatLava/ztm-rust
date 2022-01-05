@@ -15,7 +15,19 @@
 // * It is not necessary to have data fields or function implementations
 //   for the vehicle bodies/colors
 
-trait Body {}
+enum Body {
+    Truck,
+    Car,
+    Scooter,
+}
+trait Body {
+    fn show(&self);
+}
 trait Color {}
+
+struct Vehicle<T: Body, U: Color> {
+    body: T,
+    color: U,
+}
 
 fn main() {}

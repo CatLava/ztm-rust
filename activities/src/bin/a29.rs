@@ -15,6 +15,7 @@ enum ServicePriority {
     Standard,
 }
 
+
 trait Priority {
     fn get_priority(&self) -> ServicePriority;
 }
@@ -35,4 +36,11 @@ impl Priority for Guest {
     }
 }
 
-fn main() {}
+fn status<T: Priority + std::fmt::Debug>(guest_status: T) {
+    println!("{:?} is of {:?} priority", guest_status, guest_status.get_priority())
+}
+
+fn main() {
+    let g1 = Guest;
+    status(g1);
+}
