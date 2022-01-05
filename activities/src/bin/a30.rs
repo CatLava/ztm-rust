@@ -14,8 +14,8 @@
 // * Examples of colors could be red, white, black
 // * It is not necessary to have data fields or function implementations
 //   for the vehicle bodies/colors
-
-enum Body {
+#[derive(Debug)]
+enum VehicleBody {
     Truck,
     Car,
     Scooter,
@@ -23,11 +23,45 @@ enum Body {
 trait Body {
     fn show(&self);
 }
-trait Color {}
 
+impl Body for VehicleBody {
+    fn show(&self) {
+        println!("This is the body {:?}", self)
+    }
+}
+
+#[derive(Debug)]
+enum VehicleColor {
+    Red,
+    Green,
+    Blue,
+    Orange,
+}
+
+trait Color {
+    fn show(&self);
+}
+
+impl Color for VehicleColor {
+    fn show(&self) {
+        println!("This is the color {:?}", self)
+    }
+}
+
+#[derive(Debug)]
 struct Vehicle<T: Body, U: Color> {
     body: T,
     color: U,
+
 }
 
-fn main() {}
+impl<T: Body, U: Color> Vehicle<T, U> {
+    pub fn new(body: T, color: U) -> Self {
+        Self { body, color}
+    }
+}
+
+fn main() {
+    let nv = Vehicle::new(VehicleBody::Scooter, VehicleColor::Orange);
+    println!("{:?}", nv)
+}
