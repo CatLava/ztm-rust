@@ -12,4 +12,13 @@
 
 const MOCK_DATA: &'static str = include_str!("mock-data.csv");
 
-fn main() {}
+struct Employee<'a> {
+    name: &'a str,
+}
+
+fn main() {
+    for i in MOCK_DATA.split('\n').skip(1).collect().iter(){
+        println!("{}", i)
+    }
+    
+}
