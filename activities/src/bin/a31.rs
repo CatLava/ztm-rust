@@ -54,9 +54,16 @@ fn main() {
         price: 21.0,
     };
 
-    println!("{:?}", tile.cost());
 
-    let total: Vec<Box<dyn Cost>> = vec![Box::new(tile), Box::new(wood)];
+    let steel = Material {
+        name: "steel".to_string(),
+        size_m2: 125.0,
+        price: 8.0,
+    };
+
+    println!("{:?}", tile.price);
+
+    let total: Vec<Box<dyn Cost>> = vec![Box::new(tile), Box::new(wood), Box::new(steel)];
     //println!("{:?}", total);
-    println!("{}", total_cost(&total));
+    println!("Total bill of materials: ${}", total_cost(&total));
 }
