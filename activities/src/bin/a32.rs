@@ -12,13 +12,33 @@
 
 const MOCK_DATA: &'static str = include_str!("mock-data.csv");
 
-struct Employee<'a> {
-    name: &'a str,
+struct Names<'a> {
+    inner: Vec<&'a str>,
+}
+
+struct Titles<'a> {
+    inner: Vec<&'a str>,
 }
 
 fn main() {
-    for i in MOCK_DATA.split('\n').skip(1).collect().iter(){
-        println!("{}", i)
+    let data: Vec<_> = MOCK_DATA.split('\n').skip(1).collect();
+    let name: Vec<_> = data
+        .iter()
+        .filter_map(|line| line.split(',').nth(1))
+        .collect();
+    let names = Names {inner: name};
+
+    let titles: Vec<_> = data
+        .iter()
+        .filter_map(|line| line.split(',').nth(4))
+        .collect();
+    let titles = Titles {inner: titles};
+
+    let comp = names.inner.iter().zip(titles.inner.iter());
+
+    for (name, title) in comp {
+        println!("name: {}", name);
+        println!("title: {}", title);
     }
     
 }
