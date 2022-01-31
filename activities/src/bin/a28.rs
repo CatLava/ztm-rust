@@ -46,8 +46,17 @@ impl Pants {
     }
 }
 
-fn display(shirt: Shirt) {
+fn display_shirt(shirt: Shirt) {
     println!("{:?}", shirt)
+}
+
+fn display_shoes(shoes: Shoes) {
+    println!("{:?}", shoes)
+}
+
+
+fn display_pants(pants: pants) {
+    println!("{:?}", pants)
 }
 fn main() {
     let outfit = Shirt::new(Color::Yellow); 
