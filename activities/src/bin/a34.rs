@@ -16,4 +16,25 @@
 // Notes:
 // * Optionally use generics for each state
 
-fn main() {}
+struct Luggage<State>{
+    id: u32,
+    state: State,
+}
+
+impl Luggage<CheckIn> {
+    fn new(id: u32) -> Self {
+        Self {
+            id: id,
+            state: CheckIn
+        }
+    }
+}
+   
+        
+
+
+struct CheckIn;
+
+fn main() {
+    let test = Luggage::new(9);
+}

@@ -32,6 +32,7 @@ impl Shirt {
     }
 }
 
+#[derive(Debug)]
 struct Shoes(Color);
 impl Shoes {
     fn new(c: Color) -> Self {
@@ -39,6 +40,7 @@ impl Shoes {
     }
 }
 
+#[derive(Debug)]
 struct Pants(Color);
 impl Pants {
     fn new(c: Color) -> Self {
