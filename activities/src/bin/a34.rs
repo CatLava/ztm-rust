@@ -39,24 +39,38 @@ impl Luggage<CheckIn> {
         }
     }
 
-    fn onload(self) -> Luggage<OnLoading> {
+    fn onload(self, flightNumber: i32) -> Luggage<OnLoading> {
         println!("onboarded to flight: 9420");
-        self.transition(OnLoading)
+        self.transition(OnLoading {flightNumber})
     }
 }
    
         
 impl Luggage<OnLoading> {
-    fn offload(self) -> Luggage<OffLoading> {
-        self.transition(OffLoading)
+    fn offload(self, terminal: i32) -> Luggage<OffLoading> {
+        println!("pickup luggage at terminal {}", terminal);
+
+        self.transition(OffLoading {terminal})
+    }
+}
+
+impl Luggage<OffLoading> {
+    fn pickup(self) -> Luggage<AwaitingPickup> {
+        self.transition(AwaitingPickup)
     }
 }
 
 struct CheckIn;
-struct OnLoading;
-struct OffLoading;
+struct OnLoading {
+    flightNumber: i32
+}
+struct OffLoading {
+    terminal: i32
+}
+
+struct AwaitingPickup;
 
 fn main() {
     let test = Luggage::new(9);
-    let nextstate = test.onload();
+    let nextstate = test.onload(9420).offload(8);
 }
