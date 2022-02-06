@@ -16,11 +16,21 @@
 // Notes:
 // * Optionally use generics for each state
 
+
 struct Luggage<State>{
     id: u32,
     state: State,
 }
 
+//impl a scenario for a state transfer
+impl<State> Luggage<State> {
+    fn transition<NewState> (self, state: NewState) -> Luggage<NewState> {
+        Luggage { 
+            id: self.id,
+             state: state }
+    }
+
+}
 impl Luggage<CheckIn> {
     fn new(id: u32) -> Self {
         Self {
@@ -28,13 +38,25 @@ impl Luggage<CheckIn> {
             state: CheckIn
         }
     }
+
+    fn onload(self) -> Luggage<OnLoading> {
+        println!("onboarded to flight: 9420");
+        self.transition(OnLoading)
+    }
 }
    
         
-
+impl Luggage<OnLoading> {
+    fn offload(self) -> Luggage<OffLoading> {
+        self.transition(OffLoading)
+    }
+}
 
 struct CheckIn;
+struct OnLoading;
+struct OffLoading;
 
 fn main() {
     let test = Luggage::new(9);
+    let nextstate = test.onload();
 }
