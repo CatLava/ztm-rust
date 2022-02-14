@@ -54,4 +54,34 @@ enum Tile {
     Wood,
 }
 
-fn main() {}
+fn tile_analyzer(tile: Tile) -> String {
+    match tile {
+        Tile::Water(Pressure(t)) if t > 10 => "High pressure".to_string(),
+        Tile::Water(Pressure(t)) if t < 10 => format!("low water pressure: {} Bar", t).to_string(),
+        Tile::Brick(t @ BrickStyle::Gray | t @ BrickStyle::Red)
+             => format!("Brickstyle: {:?}", t).to_string(),
+        Tile::Brick(t)
+             => format!("{:?} type brick", t).to_string(),
+        Tile::Dirt | Tile::Grass | Tile::Sand => "ground tile".to_string(),
+        Tile::Treasure(TreasureChest {content: TreasureItem::Gold,amount: t }) if t >= 100 => "Lots of gold!".to_string(),
+        _ => "different tile".to_string()
+    }
+}
+fn main() {
+    let t1 = Tile::Water(Pressure(9));
+    let t2 = Tile::Brick(BrickStyle::Dungeon);
+    let t3 = Tile::Dirt;
+    let t4 = Tile::Treasure(TreasureChest{content: TreasureItem::Gold, amount: 150});
+
+
+
+    println!("{:?}", t1);
+    println!("{}", tile_analyzer(t1) );
+    println!("{}", tile_analyzer(t2) );
+    println!("{}", tile_analyzer(t3) );
+    println!("{}", tile_analyzer(t4) );
+
+    
+
+
+}
