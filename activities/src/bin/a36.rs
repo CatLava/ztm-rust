@@ -1,3 +1,5 @@
+use std::vec;
+
 // Topic: Arrays & Slices
 //
 // Requirements:
@@ -14,7 +16,18 @@ fn data() -> &'static [u64] {
     &[5, 5, 4, 4, 3, 3, 1]
 }
 
+fn interpreter(v: &[u64]) {
+    match v {
+        [x,y] => println!("values: {:?}, sum: {:?}", v,  x+y),
+        [x] => println!("only a single number: {}", x),
+        _ => println!("Data stream complete")
+    }
+}
+
 fn main() {
     // `stream` is an iterator of Option<&[u64]>
     let mut stream = data().chunks(2);
+    for i in stream {
+        interpreter(i);
+    }
 }
