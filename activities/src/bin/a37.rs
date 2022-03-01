@@ -22,8 +22,38 @@
 // * Utilize the `thiserror` crate for your error type
 // * Run `cargo test --bin a37` to test your implementation
 
+use thiserror::Error;
+use std::convert::TryFrom;
+
 #[derive(Debug, Eq, PartialEq)]
 struct Rgb(u8, u8, u8);
+
+#[derive(Debug, Error)]
+enum RgbError {
+    #[error("Hex colors must begin with hash")]
+    MissingHash,
+    #[error("unable to parse string")]
+    ParseError(std::num::ParseIntError),
+    #[error("length does not meet transfer criteria")]
+    LengthError,
+}
+impl TryFrom<&str> for Rgb {
+    type Error = RgbError;
+    fn try_from(entry: &str) -> Result<Self, Self::Error> {
+        if !entry.starts_with('#') {
+            return Err(RgbError::MissingHash)
+        }
+        if entry.len() != 7 {
+            return Err(RgbError::LengthError)
+        } 
+        let (r, g, b) = (
+            u8::from_str_radix(&entry[1..=2], 16)?,
+            u8::from_str_radix(&entry[3..=4], 16)?,
+            u8::from_str_radix(&entry[5..=6], 16)?
+        );
+        Ok(Self(r,g,b))
+    }
+}
 
 fn main() {
     // Use `cargo test --bin a37` to test your implementation
