@@ -49,12 +49,17 @@ impl TryFrom<&str> for Rgb {
         let (r, g, b) = (
             u8::from_str_radix(&entry[1..=2], 16)?,
             u8::from_str_radix(&entry[3..=4], 16)?,
-            u8::from_str_radix(&entry[5..=6], 16)?
+            u8::from_str_radix(&entry[5..=6], 16)?,
         );
         Ok(Self(r,g,b))
     }
 }
 
+impl From<std::num::ParseIntError> for RgbError {
+    fn from(err: std::num::ParseIntError) -> Self {
+        Self::ParseError(err)
+    }
+}
 fn main() {
     // Use `cargo test --bin a37` to test your implementation
 }
