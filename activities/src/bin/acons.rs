@@ -33,4 +33,9 @@ fn main() {
     assert_eq!(8, x);
     // * is a dereference in Rust
     assert_eq!(8, *y);
+
+    let b = (3, Box::new(list));
+    let c = (4, Box::new(list));
+
+    
 }
