@@ -1,8 +1,9 @@
 use crate::List::{Cons, Nil};
 use std::ops::Deref;
+use std::rc::Rc;
 
 enum List {
-    Cons(i32, Box<List>),
+    Cons(i32, Rc<List>),
     Nil,
 }
 
@@ -23,9 +24,9 @@ impl<T> Deref for MyBox<T> {
 }
 fn main() {
     let list = Cons(1, 
-        Box::new(Cons( 2, 
-            Box::new(Cons(3, 
-                Box::new(Nil))))));
+        Rc::new(Cons( 2, 
+            Rc::new(Cons(3, 
+                Rc::new(Nil))))));
     
     let x = 8;
     let y = MyBox::new(x);
@@ -34,8 +35,8 @@ fn main() {
     // * is a dereference in Rust
     assert_eq!(8, *y);
 
-    let b = (3, Box::new(list));
-    let c = (4, Box::new(list));
+    let b = (3, Rc::new(&list));
+    let c = (4, Rc::new(&list));
 
     
 }
