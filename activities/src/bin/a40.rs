@@ -20,9 +20,64 @@
 //   can both access the rental information
 // * Test your program by changing the vehicle status from both a storefront
 //   and from corporate
+use std::rc::Rc;
+use std::cell::RefCell;
 
 struct Corporate;
 
 struct StoreFront;
+#[derive(Debug)]
+enum VehicleType {
+    Sedan,
+    SUV,
+    Coup,
+}
+#[derive(Debug)]
+enum VehicleStatus {
+    Available,
+    Unavailable,
+    Maintenance,
+    Rented,
+}
 
-fn main() {}
+#[derive(Debug)]
+struct Vehicle {
+    vehicle_type: VehicleType,
+    status: VehicleStatus,
+    vin: String
+}
+
+impl Vehicle {
+    fn new(vehicle: Vehicle) -> Vehicle {
+        vehicle
+    }
+
+    fn update_status(&mut self, new_status: VehicleStatus) {
+        self.status = new_status;
+
+    }
+}
+
+fn main() {
+    let rental1 = Rc::new(RefCell::new(Vehicle::new( Vehicle {
+        vehicle_type: VehicleType::Sedan,
+        status: VehicleStatus::Available,
+        vin: "123456".to_string(),
+    })));
+
+    let rental2 = Rc::new(RefCell::new(Vehicle::new( Vehicle {
+        vehicle_type: VehicleType::SUV,
+        status: VehicleStatus::Unavailable,
+        vin: "583590".to_string(),
+    })));
+
+    println!("{:?}", rental1);
+
+    println!("{:?}", rental2);
+    {
+        // need to use borrow mut in order to access update_status
+        rental2.borrow_mut().update_status(VehicleStatus::Rented)
+    }
+    println!("{:?}", rental2);
+
+}
