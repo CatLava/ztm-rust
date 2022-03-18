@@ -1,3 +1,4 @@
+use std::borrow::BorrowMut;
 // Topic: Smart Pointers & RefCell
 //
 // Summary:
@@ -20,12 +21,20 @@
 //   can both access the rental information
 // * Test your program by changing the vehicle status from both a storefront
 //   and from corporate
+
+// This is an incorrect setup below
+// ideally want to create a vec with two vehicles
+// Rc new
+// Rc clone for the corp and management
+
 use std::rc::Rc;
 use std::cell::RefCell;
 
-struct Corporate;
+type Manage = Rc<RefCell<Vec<Vehicle>>>;
+struct Corporate(Manage);
 
-struct StoreFront;
+struct StoreFront(Manage);
+
 #[derive(Debug)]
 enum VehicleType {
     Sedan,
@@ -79,5 +88,12 @@ fn main() {
         rental2.borrow_mut().update_status(VehicleStatus::Rented)
     }
     println!("{:?}", rental2);
+
+    let corp = Corporate(Rc::clone(&rental1));
+    {
+        corp.borrow_mut().update_status(VehicleStatus::Maintenance);
+    }
+    dbg!(corp.0.borrow());
+
 
 }
