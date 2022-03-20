@@ -21,6 +21,8 @@ use crossbeam_channel::{unbounded, Receiver, Sender};
 use std::collections::VecDeque;
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
+use parking_lot::Mutex;
+use std::sync::Arc;
 
 /// Job given to workers.
 #[derive(Clone)]
