@@ -1,0 +1,6 @@
+[workspace]
+members = ["activities", "clipstash"]
+
+[dependcies]
+rand =  "0.7.3"
+parking_lot = "*"
