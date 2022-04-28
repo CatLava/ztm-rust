@@ -4,6 +4,7 @@ pub mod field;
 // All around clip storage here
 // all accessed in filed module
 // serialize is part of serde crate and need to include
+// All these fields represent functions of the webapp 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Clip {
     pub clip_id: field::ClipId,
