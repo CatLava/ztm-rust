@@ -18,7 +18,7 @@ impl DbId {
 }
 
 impl Default for DbId {
-    fn default for DbId -> Self {
+    fn default() -> Self {
         Self::new()
     }
 }

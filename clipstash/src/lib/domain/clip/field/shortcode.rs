@@ -1,4 +1,4 @@
-use super::ClipError;
+use crate::domain::clip::ClipError;
 use serde::{Deserialize, Serialize};
 use derive_more::From;
 use std::str::FromStr;

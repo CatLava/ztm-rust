@@ -1,4 +1,4 @@
-use super::ClipError;
+use crate::domain::clip::ClipError;
 use serde::{Deserialize, Serialize};
 
 // serialize and deserialize allow conversion to JSON for the API to ingest 
@@ -15,11 +15,11 @@ impl Content {
     }
     // into inner is common on rust, accessing Content back into a string
     // This is common for converting for suitable into database
-    pub into_inner(self) -> String {
+    pub fn into_inner(self) -> String {
         self.0
     }
 
-    pub as_str(&self) -> &str {
+    pub fn as_str(&self) -> &str {
         self.0.as_str()
     }
 }

@@ -1,7 +1,7 @@
-use super::ClipError;
+use crate::domain::clip::ClipError;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
-use crate::domain::Time;
+use crate::domain::time::Time;
 
 // not all clips expire so option allows for none
 #[derive(Clone,Debug, Deserialize, Serialize)]

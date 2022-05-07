@@ -1,5 +1,5 @@
-use super::ClipError;
-use serder::{Deserialize, Serialize};
+use crate::domain::clip::ClipError;
+use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
 // option is password is a optional to attach to clip stash
@@ -21,9 +21,11 @@ impl Password {
                     Ok(Self(None))
                 }
             }
+            None => Ok(Self(None))
         }
+        // this needs to be checked - issue here
         // this is for no password, and may come in for empty string    
-        None => Ok(Self(None))
+        //None => Ok(Self(None))
         //  cliperror could be added for password functionality
         // password complexity
     }

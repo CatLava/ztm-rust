@@ -1,8 +1,8 @@
-use super::ClipError;
+use crate::domain::clip::ClipError;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
-3[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Title(Option<String>);
 
 impl Title {
@@ -12,13 +12,13 @@ impl Title {
         match title {
             Some(title) => {
                 if !title.trim().is_empty() {
-                    Ok(Self(Some(title)))
+                    Self(Some(title))
                 } else {
-                    Ok(Self(None))
+                    Self(None)
                 }
             }
+            None => Self(None)
         }
-        None => Self(None)
     }
 
     pub fn into_inner(self) -> Option<String> {

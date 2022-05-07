@@ -1,7 +1,7 @@
 use chrono::{DateTime, NaiveDateTime, Utc};
 use derive_more::From;
 use serde::{Deserialize, Serialize};
-use std::std::FromStr;
+use std::str::FromStr;
 
 #[derive(Clone, Debug, From, Deserialize, Serialize)]
 // wrapping this in a time structure will enable updates only here vs. everywhere there is a time structure
@@ -16,7 +16,7 @@ impl Time {
         self.0.timestamp()
     }
 
-    pub from_naive_utc(datetime: NaiveDateTime)-> Self{
+    pub fn from_naive_utc(datetime: NaiveDateTime)-> Self{
         Time(DateTime::from_utc(datetime, Utc))
     }
 }
