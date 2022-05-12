@@ -17,3 +17,8 @@ chrono = { version = "0.4", features = ["serde"]}
 uuid = { version = "0.8", features= ["serde", "v4"]}
 derive_more = "0.99"
 rand = "0.8"
+# using tokio for async functions
+# macros for querying db at runtime
+# chrono for time conversions
+# uuid conversions for db
+sqlx = {version ="0.5", features = ["sqlite", "runtime-tokio-rustls", "macros", "chrono", "uuid"]}

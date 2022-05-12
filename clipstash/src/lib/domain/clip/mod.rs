@@ -26,15 +26,20 @@ pub enum ClipError {
 // all accessed in filed module
 // serialize is part of serde crate and need to include
 // All these fields represent functions of the webapp 
+// these represent structures of the file module
+// must use funcitonality provided on these fields
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Clip {
     pub clip_id: field::ClipId,
+    // short code to access clip
     pub shortcode: field::ShortCode,
     pub content: field::Content,
     pub title: field::Title,
+    // date posted
     pub posted: field::Posted,
     pub expires: field::Expires,
     pub password: field::Password,
+    // number of times seen on webpage
     pub hits: field::Hits,
 }
 
