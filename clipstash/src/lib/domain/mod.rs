@@ -3,3 +3,4 @@ pub mod time;
 
 // module file makes these files available everywhere else, 
 // want to include time module for the field
+pub use clip::Clip;
