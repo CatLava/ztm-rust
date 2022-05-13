@@ -7,17 +7,17 @@ use std::convert::TryFrom;
 // prior to adding to db need to implement transformations
 #[derive(Debug, sqlx::FromRow)]
 pub struct Clip {
-    pub clip_id: String,
+    pub(in crate::data) clip_id: String,
     // short code to access clip
-    pub shortcode: String,
-    pub content: String,
-    pub title: Option<String>,
+    pub(in crate::data) shortcode: String,
+    pub(in crate::data) content: String,
+    pub(in crate::data) title: Option<String>,
     // date posted
-    pub posted: NaiveDateTime,
-    pub expires: Option<NaiveDateTime>,
-    pub password: Option<String>,
+    pub(in crate::data) posted: NaiveDateTime,
+    pub(in crate::data) expires: Option<NaiveDateTime>,
+    pub(in crate::data) password: Option<String>,
     // number of times seen on webpage
-    pub hits: i64,
+    pub(in crate::data) hits: i64,
 }
 
 impl TryFrom<Clip> for crate::domain::Clip {
