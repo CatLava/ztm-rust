@@ -77,6 +77,6 @@ pub async fn update_clip<M: Into<model::UpdateClip>>(
         model.shortcode
     )
     .execute(pool);
-    await?;
+    .await?;
     get_clip(model.shortcode, pool).await
 }
