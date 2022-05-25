@@ -78,8 +78,23 @@ pub struct NewClip {
     pub(in crate::data) title: Option<String>,
     // date posted
     pub(in crate::data) posted: i64,
-    pub(in crate::data) expires: Option<NaiveDateTime>,
+    pub(in crate::data) expires: Option<i64>,
     pub(in crate::data) password: Option<String>,
+}
+
+impl From<crate::service::ask::NewClip> for NewClip {
+    fn from(req: crate::service::ask::NewClip) -> Self {
+        Self {
+            // impl from into string for DbID
+            clip_id: DbId::new().into(),
+            content: req.content.into_inner(),
+            title: req.title.into_inner(),
+            expires: req.expires.into_inner().map(|time| time.timestamp()),
+            password: req.password.into_inner(),
+            shortcode: ShortCode::default().into(),
+            posted: Utc::now().timestamp(),
+        }
+    }
 }
 
 pub struct UpdateClip {
@@ -89,4 +104,17 @@ pub struct UpdateClip {
     // date posted
     pub(in crate::data) expires: Option<i64>,
     pub(in crate::data) password: Option<String>,
+}
+
+impl From<crate::service::ask::UpdateClip> for UpdateClip {
+    fn from(req: crate::service::ask::UpdateClip) -> Self {
+        Self {
+            // impl from into string for 
+            content: req.content.into_inner(),
+            title: req.title.into_inner(),
+            expires: req.expires.into_inner().map(|time| time.timestamp()),
+            password: req.password.into_inner(),
+            shortcode: ShortCode::default().into(),
+        }
+    }
 }
