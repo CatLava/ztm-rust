@@ -42,4 +42,3 @@ pub struct Clip {
     // number of times seen on webpage
     pub hits: field::Hits,
 }
-
